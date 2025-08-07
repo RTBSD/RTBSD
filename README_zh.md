@@ -55,6 +55,18 @@ RTBSD 能够形成的另一个关键是 [cheribuild](https://github.com/CTSRD-CH
 - 2. 完整构建 NetBSD AARCH64 的镜像，通过 QEMU 进行启动
 - 3. 构建 LibBSD 在 RT-Thread 中使用，通过 QEMU 进行启动
 
+```
+git clone git@github.com:RTBSD/RTBSD.git --recursive rtbsd
+```
+
+或者
+
+```
+git clone https://github.com/RTBSD/RTBSD.git rtbsd
+cd rtbsd
+./setup.sh
+```
+
 - 下面具体说明下以上功能，
 
 ## 1. 编译 FreeBSD
