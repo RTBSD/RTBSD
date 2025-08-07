@@ -1,0 +1,20 @@
+[submodule "tools/cheribuild"]
+	path = tools/cheribuild
+	url = git@github.com:RTBSD/cheribuild.git
+	branch = main
+[submodule "upstream/freebsd"]
+	path = upstream/freebsd
+	url = git@github.com:RTBSD/freebsd-src.git
+	branch = releng/14.3
+[submodule "rtos/rt-thread"]
+	path = rtos/rt-thread
+	url = git@github.com:RTBSD/rt-thread.git
+	branch = master
+[submodule "upstream/netbsd"]
+	path = upstream/netbsd
+	url = git@github.com:RTBSD/NetBSD-src.git
+	branch = netbsd-10
+[submodule "libbsd"]
+	path = libbsd
+	url = git@github.com:RTBSD/LibBSD.git
+	branch = main

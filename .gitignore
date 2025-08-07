@@ -53,3 +53,11 @@ dkms.conf
 
 # debug information files
 *.dwo
+
+/.vscode
+/tools/llvm-x86_64/*
+/build*
+/*.img
+/*.iso
+/*.tar.xz
+/*.qcow2
