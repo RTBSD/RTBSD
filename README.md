@@ -56,6 +56,18 @@ This repository currently supports use in the Debian 12 AMD64 environment and in
 - 2. Building of NetBSD AARCH64 image and running through QEMU.
 - 3. Building LibBSD as well ad in RT-Thread and running through QEMU.
 
+```
+git clone git@github.com:RTBSD/RTBSD.git --recursive rtbsd
+```
+
+or
+
+```
+git clone https://github.com/RTBSD/RTBSD.git rtbsd
+cd rtbsd
+./setup.sh
+```
+
 - The following specifically describes the above functions.
 
 ## 1. Building FreeBSD
