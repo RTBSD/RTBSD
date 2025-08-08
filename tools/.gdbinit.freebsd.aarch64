@@ -1,0 +1,7 @@
+set architecture aarch64
+set listsize 20
+set print pretty on
+set pagination off
+file kernel
+b do_el1h_sync
+target remote :1234

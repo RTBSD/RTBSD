@@ -18,3 +18,7 @@
 	path = libbsd
 	url = git@github.com:RTBSD/LibBSD.git
 	branch = main
+[submodule "rtos/raspi3-baremetal"]
+	path = rtos/raspi3-baremetal
+	url = git@github.com:RTBSD/raspi3-baremetal.git
+	branch = master
