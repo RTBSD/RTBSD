@@ -21,35 +21,6 @@ The subsequent development of RTBSD will focus on further expanding driver suppo
 - 3. Adaptation to more real-time operating systems: Such as FreeRTOS, ThreadX, and Nuttx
 ...
 
-Several design concepts of RTBSD include:
-
-- 1. No user space division: Since most real-time operating systems do not strictly distinguish between kernel space and user space, all code in RTBSD runs in the kernel space, simplifying the system architecture.
-- 2. Dependence on the C standard library: Since the namespace of the BSD kernel is very similar to that of C libraries such as Newlibc, RTBSD uses the header files of the C standard library to solve the problem of namespace missing in some transplantation processes.
-- 3. Compatibility with multiple BSDs: Taking FreeBSD as the main transplantation object, the driver bus foundation and SYSINIT mechanism of FreeBSD are fully transplanted. The automatic configuration of FreeBSD drivers can be realized through autoconf, while the drivers of NetBSD and OpenBSD need to be manually managed.
-
-The usage method of RTBSD:
-
-RTBSD is not a ready-to-use solution. More precisely, it is a set of tools for transplanting drivers and components from BSD systems, aiming to make the transplantation process more efficient and smooth. Generally speaking, the transplantation process needs to go through the following steps:
-
-- 1. Function verification: Implement and verify the target function to be transplanted on the hardware using the BSD system. If there are problems, feedback and fix them to the upstream.
-- 2. Code copying: Keep the original directory structure and copy the code to the corresponding directory of libBSD.
-- 3. Header file shielding and reference: Shield the header files in the original BSD code. According to actual needs, meet the compilation requirements by referencing the header files in bsd_compat.h.
-- 4. Method stubbing and annotation: For the methods not implemented in LibBSD, perform stubbing processing in bsd_stub.h; for the parts not suitable for compilation and use, use macros for annotation.
-- 5. Compilation script configuration: Add the source file and header file directories to the compilation script respectively.
-Function verification: In the same hardware environment, use the combination of LibBSD and RTOS to implement and verify the functions.
-
-Why choose the BSD system:
-
-The choice of the BSD system as the source of drivers and components is mainly based on the following advantages:
-
-- 1. Loose license: The BSD system components use a loose license, allowing developers to modify and distribute the code according to their own needs, providing great freedom for developers.
-- 2. Excellent implementation and documentation: The BSD drivers and components have excellent implementation quality and are accompanied by complete documentation, which makes the code easy to understand and transplant.
-- 3. Complete system architecture: The BSD system has a complete kernel and user mode, and all the required code is included, providing rich resources for transplantation.
-
-The emergence of RTBSD was inspired by [RTEMS-LibBSD](https://github.com/RTEMS/rtems-libbsd) (porting the entire FreeBSD driver components to the RTOS). Unfortunately, RTEMS-LibBSD only supports use in RTEMS. Therefore, RTBSD was redesigned with reference to RTEMS-LibBSD, enabling it to support more RTOSes.
-
-Another key factor for the formation of RTBSD is the [cheribuild](https://github.com/CTSRD-CHERI/cheribuild) project. This project provides a method for cross - building FreeBSD on Linux distributions (mainly Debian and Ubuntu), which is a key prerequisite for the formation of RTBSD (after all, it is impossible to persuade everyone to install a FreeBSD).
-
 This repository currently supports use in the Debian 12 AMD64 environment and integrates the following functions:
 
 - 1. Building of FreeBSD AARCH64 image and running through QEMU.
@@ -146,7 +117,38 @@ make rtthread_aarch64_run
 
 ![run_rtthread](./doc/figs/run_rtthread.png)
 
-## 4. Reference links
+## 4. Design
+
+Several design concepts of RTBSD include:
+
+- 1. No user space division: Since most real-time operating systems do not strictly distinguish between kernel space and user space, all code in RTBSD runs in the kernel space, simplifying the system architecture.
+- 2. Dependence on the C standard library: Since the namespace of the BSD kernel is very similar to that of C libraries such as Newlibc, RTBSD uses the header files of the C standard library to solve the problem of namespace missing in some transplantation processes.
+- 3. Compatibility with multiple BSDs: Taking FreeBSD as the main transplantation object, the driver bus foundation and SYSINIT mechanism of FreeBSD are fully transplanted. The automatic configuration of FreeBSD drivers can be realized through autoconf, while the drivers of NetBSD and OpenBSD need to be manually managed.
+
+The usage method of RTBSD:
+
+RTBSD is not a ready-to-use solution. More precisely, it is a set of tools for transplanting drivers and components from BSD systems, aiming to make the transplantation process more efficient and smooth. Generally speaking, the transplantation process needs to go through the following steps:
+
+- 1. Function verification: Implement and verify the target function to be transplanted on the hardware using the BSD system. If there are problems, feedback and fix them to the upstream.
+- 2. Code copying: Keep the original directory structure and copy the code to the corresponding directory of libBSD.
+- 3. Header file shielding and reference: Shield the header files in the original BSD code. According to actual needs, meet the compilation requirements by referencing the header files in bsd_compat.h.
+- 4. Method stubbing and annotation: For the methods not implemented in LibBSD, perform stubbing processing in bsd_stub.h; for the parts not suitable for compilation and use, use macros for annotation.
+- 5. Compilation script configuration: Add the source file and header file directories to the compilation script respectively.
+Function verification: In the same hardware environment, use the combination of LibBSD and RTOS to implement and verify the functions.
+
+Why choose the BSD system:
+
+The choice of the BSD system as the source of drivers and components is mainly based on the following advantages:
+
+- 1. Loose license: The BSD system components use a loose license, allowing developers to modify and distribute the code according to their own needs, providing great freedom for developers.
+- 2. Excellent implementation and documentation: The BSD drivers and components have excellent implementation quality and are accompanied by complete documentation, which makes the code easy to understand and transplant.
+- 3. Complete system architecture: The BSD system has a complete kernel and user mode, and all the required code is included, providing rich resources for transplantation.
+
+The emergence of RTBSD was inspired by [RTEMS-LibBSD](https://github.com/RTEMS/rtems-libbsd) (porting the entire FreeBSD driver components to the RTOS). Unfortunately, RTEMS-LibBSD only supports use in RTEMS. Therefore, RTBSD was redesigned with reference to RTEMS-LibBSD, enabling it to support more RTOSes.
+
+Another key factor for the formation of RTBSD is the [cheribuild](https://github.com/CTSRD-CHERI/cheribuild) project. This project provides a method for cross - building FreeBSD on Linux distributions (mainly Debian and Ubuntu), which is a key prerequisite for the formation of RTBSD (after all, it is impossible to persuade everyone to install a FreeBSD).
+
+## 5. Reference links
 
 - [FreeBSD and RTEMS, Unix in a Real-Time Operating System](https://freebsdfoundation.org/wp-content/uploads/2016/08/FreeBSD-and-RTEMS-Unix-in-a-Real-Time-Operating-System.pdf)
 - [RTEMS-LibBSD](https://github.com/RTEMS/rtems-libbsd)

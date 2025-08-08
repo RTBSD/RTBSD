@@ -21,35 +21,6 @@ RTBSD 的后续开发将聚焦于进一步扩展驱动支持，具体计划包�
 - 3. 适配更多实时操作系统：比如 FreeRTOS、ThreadX 和 Nuttx
 ...
 
-RTBSD 的几个设计理念包括：
-
-- 1. 无用户空间划分：鉴于大多数实时操作系统不会严格区分内核空间和用户空间，RTBSD 中的所有代码均运行在内核空间，简化了系统架构。
-- 2. 依赖 C 标准库：由于 BSD 内核命名空间与 Newlibc 等 C 库的命名空间极为相似，RTBSD 借助 C 标准库的头文件来解决部分移植过程中命名空间缺失的问题。
-- 3. 兼容多种 BSD：以 FreeBSD 为主要移植对象，全面移植 FreeBSD 的驱动总线基础和 SYSINIT 机制。通过 autoconf 可实现 FreeBSD 驱动的自动配置，而对于 NetBSD 和 OpenBSD 的驱动，则需手动进行管理
-
-RTBSD 的使用方法：
-
-RTBSD 并非一套可直接投入使用的解决方案，更确切地说，它是一套用于从 BSD 系统移植驱动和组件的工具集合，旨在让移植过程更加高效、顺畅。一般而言，移植过程需经历以下步骤：
-
-- 1. 功能验证：在硬件上使用 BSD 系统实现并验证待移植的目标功能。若出现问题，需向上游反馈并修复。
-- 2. 代码拷贝：保留原有目录结构，将代码复制到 libBSD 对应的目录下。
-- 3. 头文件屏蔽与引用：屏蔽原有 BSD 代码中的头文件，依据实际需求，通过引用 bsd_compat.h 中的头文件来满足编译要求。
-- 4. 方法打桩与注释：对于 LibBSD 中未实现的方法，在 bsd_stub.h 中进行打桩处理；对于不适合编译使用的部分，使用宏进行注释。
-- 5. 编译脚本配置：将源文件和头文件目录分别添加到编译脚本中。
-功能验证：在相同的硬件环境下，使用 LibBSD 与 RTOS 的组合实现进行功能验证。
-
-为什么选择 BSD 系统：
-
-选择 BSD 系统作为驱动和组件的来源主要基于以下几点优势：
-
-- 1. 宽松的许可证：BSD 系统组件采用宽松的许可证，允许开发者根据自身需求对代码进行修改和分发，为开发者提供了极大的自由度。
-- 2. 优秀的实现与文档：BSD 驱动和组件具有出色的实现质量，并且配有完善的文档说明，这使得代码易于理解和移植。
-- 3. 完整的系统架构：BSD 系统具备完整的内核和用户态，所需的全部代码均包含在内，为移植提供了丰富的资源。
-
-RTBSD 的出现是受到了 [RTEMS-LibBSD](https://github.com/RTEMS/rtems-libbsd) 的启发（将 FreeBSD 驱动组件整体移植到 RTOS 上），但遗憾的是 RTEMS-LibBSD 仅支持在 RTEMS 使用，因此重新参考 RTEMS-LibBSD 重新设计了 RTBSD，使得它可以支持更多 RTOS 使用
-
-RTBSD 能够形成的另一个关键是 [cheribuild](https://github.com/CTSRD-CHERI/cheribuild) 项目，这个项目提供了在 Linux 发行版（主要是 Debian 和 Ubuntu）上交叉构建 FreeBSD 的方法，这是 RTBSD 能够成型的一个关键前提（毕竟我没法说服每一个人都装一台 FreeBSD）
-
 本仓库目前支持在 Debian 12 AMD64 环境下使用，集成了下面几个方面的功能
 - 1. 完整构建 FreeBSD AARCH64 的镜像，通过 QEMU 进行启动
 - 2. 完整构建 NetBSD AARCH64 的镜像，通过 QEMU 进行启动
@@ -145,7 +116,38 @@ make rtthread_aarch64_run
 
 ![run_rtthread](./doc/figs/run_rtthread.png)
 
-## 4. 参考链接
+## 4. 设计
+
+RTBSD 的几个设计理念包括：
+
+- 1. 无用户空间划分：鉴于大多数实时操作系统不会严格区分内核空间和用户空间，RTBSD 中的所有代码均运行在内核空间，简化了系统架构。
+- 2. 依赖 C 标准库：由于 BSD 内核命名空间与 Newlibc 等 C 库的命名空间极为相似，RTBSD 借助 C 标准库的头文件来解决部分移植过程中命名空间缺失的问题。
+- 3. 兼容多种 BSD：以 FreeBSD 为主要移植对象，全面移植 FreeBSD 的驱动总线基础和 SYSINIT 机制。通过 autoconf 可实现 FreeBSD 驱动的自动配置，而对于 NetBSD 和 OpenBSD 的驱动，则需手动进行管理
+
+RTBSD 的使用方法：
+
+RTBSD 并非一套可直接投入使用的解决方案，更确切地说，它是一套用于从 BSD 系统移植驱动和组件的工具集合，旨在让移植过程更加高效、顺畅。一般而言，移植过程需经历以下步骤：
+
+- 1. 功能验证：在硬件上使用 BSD 系统实现并验证待移植的目标功能。若出现问题，需向上游反馈并修复。
+- 2. 代码拷贝：保留原有目录结构，将代码复制到 libBSD 对应的目录下。
+- 3. 头文件屏蔽与引用：屏蔽原有 BSD 代码中的头文件，依据实际需求，通过引用 bsd_compat.h 中的头文件来满足编译要求。
+- 4. 方法打桩与注释：对于 LibBSD 中未实现的方法，在 bsd_stub.h 中进行打桩处理；对于不适合编译使用的部分，使用宏进行注释。
+- 5. 编译脚本配置：将源文件和头文件目录分别添加到编译脚本中。
+功能验证：在相同的硬件环境下，使用 LibBSD 与 RTOS 的组合实现进行功能验证。
+
+为什么选择 BSD 系统：
+
+选择 BSD 系统作为驱动和组件的来源主要基于以下几点优势：
+
+- 1. 宽松的许可证：BSD 系统组件采用宽松的许可证，允许开发者根据自身需求对代码进行修改和分发，为开发者提供了极大的自由度。
+- 2. 优秀的实现与文档：BSD 驱动和组件具有出色的实现质量，并且配有完善的文档说明，这使得代码易于理解和移植。
+- 3. 完整的系统架构：BSD 系统具备完整的内核和用户态，所需的全部代码均包含在内，为移植提供了丰富的资源。
+
+RTBSD 的出现是受到了 [RTEMS-LibBSD](https://github.com/RTEMS/rtems-libbsd) 的启发（将 FreeBSD 驱动组件整体移植到 RTOS 上），但遗憾的是 RTEMS-LibBSD 仅支持在 RTEMS 使用，因此重新参考 RTEMS-LibBSD 重新设计了 RTBSD，使得它可以支持更多 RTOS 使用
+
+RTBSD 能够形成的另一个关键是 [cheribuild](https://github.com/CTSRD-CHERI/cheribuild) 项目，这个项目提供了在 Linux 发行版（主要是 Debian 和 Ubuntu）上交叉构建 FreeBSD 的方法，这是 RTBSD 能够成型的一个关键前提（毕竟我没法说服每一个人都装一台 FreeBSD）
+
+## 5. 参考链接
 
 - [FreeBSD and RTEMS, Unix in a Real-Time Operating System](https://freebsdfoundation.org/wp-content/uploads/2016/08/FreeBSD-and-RTEMS-Unix-in-a-Real-Time-Operating-System.pdf)
 - [RTEMS-LibBSD](https://github.com/RTEMS/rtems-libbsd)
