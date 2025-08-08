@@ -36,10 +36,10 @@ freebsd_aarch64_image:
 		--disk-image-freebsd/rootfs-type $(FREEBSD_ROOTFS) \
 		--skip-update \
 		$(FREEBSD_VERBOSE)
+	@cp $(RTBSD_DIR)/build/output/freebsd-aarch64.img . -f
 
 freebsd_aarch64_run:
 	@echo "Run FreeBSD(AARCH64)"
-	@cp $(RTBSD_DIR)/build/output/freebsd-aarch64.img . -f
 	@qemu-system-aarch64 -M virt -cpu cortex-a53 -smp 4 -m 4g \
 		-drive if=none,file=freebsd-aarch64.img,id=hd0 -device virtio-blk-device,drive=hd0 \
 		-netdev type=user,id=net0 -device virtio-net-device,netdev=net0,mac=00:11:22:33:44:55 \
