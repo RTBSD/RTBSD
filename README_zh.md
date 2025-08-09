@@ -46,7 +46,7 @@ cd rtbsd
 
 ```
 sudo apt install autoconf automake libtool pkg-config clang bison cmake mercurial ninja-build samba flex texinfo time libglib2.0-dev libpixman-1-dev libarchive-dev libarchive-tools libbz2-dev libattr1-dev libcap-ng-dev libexpat1-dev libgmp-dev bc
-sudo apt install qemu-system-arm
+sudo apt install qemu-system-arm qemu-system-x86 qemu-system-riscv64
 sudo apt-get install qemu-efi-aarch64
 ```
 
