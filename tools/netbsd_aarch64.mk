@@ -17,8 +17,7 @@ netbsd_aarch64_image:
 		-O $(RTBSD_DIR)/build/obj.$(NETBSD_AARCH64_ARCH) \
 		-m $(NETBSD_AARCH64_MARCH) \
 		-a $(NETBSD_AARCH64_ARCH) \
-		tools release live-image install-image \
-		disk-image=arm64 \
+		tools release \
 		releasekernel=$(NETBSD_AARCH64_KERNCONFIG)
 	@gunzip -d $(NETBSD_AARCH64_IMAGES)/arm64.img.gz
 	@cp $(NETBSD_AARCH64_IMAGES)/arm64.img ./netbsd-aarch64.img

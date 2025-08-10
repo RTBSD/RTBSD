@@ -13,10 +13,16 @@ netbsd_amd64_image:
 		./build.sh -U -u -j$(NETBSD_AMD64_MAXJOBS) \
 		-m $(NETBSD_AMD64_MARCH) \
 		-O $(RTBSD_DIR)/build/obj.$(NETBSD_AMD64_MARCH) \
-		tools release live-image \
-		disk-image=amd64 \
-		releasekernel=$(NETBSD_AMD64_KERNCONFIG)
+		tools \
+		releasekernel=$(NETBSD_AMD64_KERNCONFIG) \
+		release live-image
 	@gunzip -d $(NETBSD_AMD64_IMAGES)/NetBSD-10.1_STABLE-amd64-live.img.gz
 	@cp $(NETBSD_AMD64_IMAGES)/NetBSD-10.1_STABLE-amd64-live.img ./netbsd-amd64.img
 	@chmod +x ./netbsd-amd64.img
 	@qemu-img resize ./netbsd-amd64.img 20g
+
+netbsd_amd64_run:
+	@echo "Run NetBSD(AMD64)"
+	qemu-system-x86_64 -m 2048 -smp 2 \
+		-hda netbsd-amd64.img \
+		-nographic
