@@ -4,7 +4,7 @@ export SHELL := /bin/bash
 FRREEBSD_AARCH64_VERSION := 14.3
 FRREEBSD_AARCH64_TARGET := arm64
 FRREEBSD_AARCH64_AARCH := aarch64
-FRREEBSD_AARCH64_KERNCONFIG := GENERIC
+FRREEBSD_AARCH64_KERNCONFIG := GENERIC-DEBUG
 FRREEBSD_AARCH64_KERNDEBUG := --freebsd-with-default-options/debug-kernel
 FRREEBSD_AARCH64_VERBOSE :=
 FRREEBSD_AARCH64_ROOTFS := ufs
@@ -12,7 +12,6 @@ FRREEBSD_AARCH64_HOSTNAME := rtbsd
 FRREEBSD_AARCH64_QEMU_EFI := /usr/share/qemu-efi-aarch64/QEMU_EFI.fd
 FRREEBSD_AARCH64_SRC_DIR := $(RTBSD_DIR)/upstream/freebsd
 FRREEBSD_AARCH64_ROOTFS_DIR := $(RTBSD_DIR)/build/freebsd-aarch64-build$(RTBSD_DIR)/upstream/freebsd/arm64.aarch64/sys/$(FRREEBSD_AARCH64_KERNCONFIG)
-
 
 freebsd_aarch64_image:
 	@echo "Building image for FreeBSD(AARCH64)"
@@ -73,6 +72,10 @@ freebsd_aarch64_debug:
 	@qemu-system-aarch64 -M virt -cpu cortex-a53 -smp 4 -m 4g \
 		-drive if=none,file=freebsd-aarch64.img,id=hd0 -device virtio-blk-device,drive=hd0 \
 		-netdev type=user,id=net0 -device virtio-net-device,netdev=net0,mac=00:11:22:33:44:55 \
+		-device pci-bridge,chassis_nr=1,id=pci-bridge-1,bus=pcie.0,addr=0x1 \
+		-device qemu-xhci,id=xhci,bus=pci-bridge-1,addr=0x1 \
+		-device usb-hub,bus=xhci.0,port=1 \
+		-device usb-mouse,bus=xhci.0,port=1.1 \
 		-bios $(FRREEBSD_AARCH64_QEMU_EFI) -nographic \
 		-s -S
 

@@ -3,5 +3,5 @@ set listsize 20
 set print pretty on
 set pagination off
 file kernel
-b do_el1h_sync
+b usb_attach
 target remote :1234
