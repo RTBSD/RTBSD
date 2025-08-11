@@ -80,9 +80,3 @@ freebsd_aarch64_attach:
 	@echo "Attach FreeBSD(AARCH64) in debug mode"
 	@cp $(FRREEBSD_AARCH64_ROOTFS_DIR)/kernel kernel -f
 	@gdb-multiarch -x ./tools/.gdbinit.freebsd.aarch64
-
-freebsd_aarch64_clean:
-	@echo "Clean FreeBSD(AARCH64)"
-	@rm -rf $(RTBSD_DIR)/build/freebsd-aarch64-build
-	@rm -rf $(RTBSD_DIR)/build/output
-	@rm -rf $(RTBSD_DIR)/build/extra-files

@@ -25,6 +25,14 @@ llvm_x86_64_debian_toolchain:
 	@ln -s $(RTBSD_DIR)/tools/llvm-x86_64 $(RTBSD_DIR)/build/output/upstream-llvm
 	@echo "Setup x86_64 LLVM tools"
 
+freebsd_clean:
+	@echo "Clean FreeBSD(AARCH64/AMD64/Risv64)"
+	@rm -rf $(RTBSD_DIR)/build/freebsd-aarch64-build
+	@rm -rf $(RTBSD_DIR)/build/freebsd-amd64-build
+	@rm -rf $(RTBSD_DIR)/build/freebsd-riscv64-build
+	@rm -rf $(RTBSD_DIR)/build/output
+	@rm -rf $(RTBSD_DIR)/build/extra-files
+
 qemu_aarch64_info:
 	@qemu-system-aarch64 --machine help
 	@qemu-system-aarch64 --device help
