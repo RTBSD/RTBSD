@@ -22,7 +22,3 @@
 	path = rtos/raspi3-baremetal
 	url = git@github.com:RTBSD/raspi3-baremetal.git
 	branch = master
-[submodule "rtos/rtems"]
-	path = rtos/rtems
-	url = https://github.com/RTBSD/rtems.git
-	branch = main

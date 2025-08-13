@@ -63,3 +63,4 @@ dkms.conf
 /*.qcow2
 /kernel
 /kernel.debug
+/rtos/rtems/*

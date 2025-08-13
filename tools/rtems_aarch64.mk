@@ -29,6 +29,36 @@ define build_rtems_toolchain
 		devel/dtc
 endef
 
+# void get_rtems_bsp_default_config
+#    $(1) == rtems source dir
+#    $(2) == rtems bsp arch
+#    $(3) == rtems bsp board
+define get_rtems_bsp_default_config
+	@##H## Get the BSP default configs.
+	cd $(1) && ./waf bspdefaults --rtems-bsps=$(2)/$(3) > config.ini
+	cd $(1) && sed -i \
+		-e "s|RTEMS_POSIX_API = False|RTEMS_POSIX_API = True|" \
+		-e "s|BUILD_SAMPLES = False|BUILD_SAMPLES = True|" \
+		-e "s|RTEMS_SMP = False|RTEMS_SMP = True|" \
+		-e "s|BUILD_SMPTESTS = False|BUILD_SMPTESTS = True|" \
+		-e "s|BUILD_TESTS = False|BUILD_TESTS = True|" \
+		-e "s|BUILD_ADATESTS = False|BUILD_ADATESTS = True|" \
+		-e "s|BUILD_BENCHMARKS = False|BUILD_BENCHMARKS = True|" \
+		-e "s|BUILD_FSTESTS = False|BUILD_FSTESTS = True|" \
+		-e "s|BUILD_LIBTESTS = False|BUILD_LIBTESTS = True|" \
+		-e "s|BUILD_MPTESTS = False|BUILD_MPTESTS = False|" \
+		-e "s|BUILD_PSXTESTS = False|BUILD_PSXTESTS = True|" \
+		-e "s|BUILD_PSXTMTESTS = False|BUILD_PSXTMTESTS = True|" \
+		-e "s|BUILD_RHEALSTONE = False|BUILD_RHEALSTONE = True|" \
+		-e "s|BUILD_SMPTESTS = False|BUILD_SMPTESTS = False|" \
+		-e "s|BUILD_TMTESTS = False|BUILD_TMTESTS = True|" \
+		-e "s|BUILD_UNITTESTS = False|BUILD_UNITTESTS = True|" \
+		-e "s|BUILD_VALIDATIONTESTS = False|BUILD_VALIDATIONTESTS = True|" \
+		-e "s|AARCH64_FLUSH_CACHE_BOOT_UP = False|AARCH64_FLUSH_CACHE_BOOT_UP = True|" \
+		config.ini
+	cd $(1) && cat config.ini
+endef
+
 # void config_rtems_bsp
 #    $(1) == rtems bsp config
 #    $(2) == rtems source dir
@@ -58,10 +88,21 @@ rtems_tools:
 	fi
 	$(call build_rtems_toolchain,$(RTEMS_AARCH64_TOOL_PREFIX),$(RTEMS_RSB_DIR),$(RTEMS_VERSION),aarch64)
 
+rtems_bsp_list:
+	@cd $(RTEMS_SRC_DIR) && ./waf bsplist
+
 rtems_aarch64_image:
+	@if [ ! -f "rtems-6.1.tar.xz" ]; then \
+		wget https://ftp.rtems.org/pub/rtems/releases/6/6.1/sources/rtems-6.1.tar.xz; \
+		mkdir -p $(RTEMS_SRC_DIR); \
+		tar -xvf rtems-6.1.tar.xz \
+			-C $(RTEMS_SRC_DIR) \
+			--strip-components=1; \
+	fi	
 	@echo -n > $(RTEMS_SRC_DIR)/config.ini
-	$(call config_rtems_bsp,qemu-a53-bsp.ini,$(RTEMS_SRC_DIR))
+	$(call get_rtems_bsp_default_config,$(RTEMS_SRC_DIR),aarch64,a53_lp64_qemu)
 	$(call build_rtems_bsp,$(RTEMS_AARCH64_TOOL_PREFIX),$(RTEMS_SRC_DIR))
+	@cp $(RTEMS_SRC_DIR)/build/aarch64/a53_lp64_qemu/testsuites/samples/hello.exe ./rtems.exe
 
 rtems_aarch64_run:
 	@qemu-system-aarch64 -no-reboot -nographic -serial mon:stdio \
