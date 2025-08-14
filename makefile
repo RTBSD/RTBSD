@@ -9,9 +9,10 @@ include $(RTBSD_DIR)/tools/freebsd_riscv64.mk
 include $(RTBSD_DIR)/tools/netbsd_aarch64.mk
 include $(RTBSD_DIR)/tools/netbsd_amd64.mk
 include $(RTBSD_DIR)/tools/netbsd_riscv64.mk
-include $(RTBSD_DIR)/tools/rtthread_aarch64.mk
+include $(RTBSD_DIR)/tools/rtthread.mk
 include $(RTBSD_DIR)/tools/baremetal_raspi3.mk
-include $(RTBSD_DIR)/tools/rtems_aarch64.mk
+include $(RTBSD_DIR)/tools/rtems.mk
+include $(RTBSD_DIR)/tools/nuttx.mk
 
 llvm_x86_64_debian_toolchain:
 	@if [ ! -f "clang+llvm-18.1.8-x86_64-linux-gnu-ubuntu-18.04.tar.xz" ]; then \

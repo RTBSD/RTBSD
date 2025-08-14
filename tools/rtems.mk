@@ -1,10 +1,12 @@
 export SHELL := /bin/bash
 
 RTEMS_VERSION := 6
-RTEMS_SRC_DIR := $(RTBSD_DIR)/rtos/rtems
+RTEMS_SRC_DIR := $(RTBSD_DIR)/rtos/rtemsspace/rtems
 RTEMS_RSB_DIR := $(RTBSD_DIR)/build/rtems-source-builder
-RTEMS_AARCH64_TOOL_PATH := $(RTBSD_DIR)/build/rtems
-RTEMS_AARCH64_TOOL_PREFIX := $(RTEMS_AARCH64_TOOL_PATH)/toolchain/aarch64-$(RTEMS_VERSION)
+RTEMS_TOOL_PATH := $(RTBSD_DIR)/build/rtems
+RTEMS_AARCH64_TOOL_PREFIX := $(RTEMS_TOOL_PATH)/toolchain/aarch64-$(RTEMS_VERSION)
+RTEMS_AMD64_TOOL_PREFIX := $(RTEMS_TOOL_PATH)/toolchain/x86_64-$(RTEMS_VERSION)
+
 
 # void build_rtems_toolchain
 #    $(1) == toolchain install dir
@@ -87,18 +89,12 @@ rtems_tools:
 			--strip-components=1; \
 	fi
 	$(call build_rtems_toolchain,$(RTEMS_AARCH64_TOOL_PREFIX),$(RTEMS_RSB_DIR),$(RTEMS_VERSION),aarch64)
+	$(call build_rtems_toolchain,$(RTEMS_AMD64_TOOL_PREFIX),$(RTEMS_RSB_DIR),$(RTEMS_VERSION),x86_64)
 
 rtems_bsp_list:
 	@cd $(RTEMS_SRC_DIR) && ./waf bsplist
 
 rtems_aarch64_image:
-	@if [ ! -f "rtems-6.1.tar.xz" ]; then \
-		wget https://ftp.rtems.org/pub/rtems/releases/6/6.1/sources/rtems-6.1.tar.xz; \
-		mkdir -p $(RTEMS_SRC_DIR); \
-		tar -xvf rtems-6.1.tar.xz \
-			-C $(RTEMS_SRC_DIR) \
-			--strip-components=1; \
-	fi	
 	@echo -n > $(RTEMS_SRC_DIR)/config.ini
 	$(call get_rtems_bsp_default_config,$(RTEMS_SRC_DIR),aarch64,a53_lp64_qemu)
 	$(call build_rtems_bsp,$(RTEMS_AARCH64_TOOL_PREFIX),$(RTEMS_SRC_DIR))

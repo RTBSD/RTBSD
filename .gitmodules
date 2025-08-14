@@ -22,3 +22,19 @@
 	path = rtos/raspi3-baremetal
 	url = git@github.com:RTBSD/raspi3-baremetal.git
 	branch = master
+[submodule "rtos/nuttxspace/nuttx-apps"]
+	path = rtos/nuttxspace/nuttx-apps
+	url = git@github.com:RTBSD/nuttx-apps.git
+	branch = master
+[submodule "rtos/uniproton"]
+	path = rtos/uniproton
+	url = git@github.com:RTBSD/UniProton.git
+	branch = master
+[submodule "rtos/nuttxspace/nuttx"]
+	path = rtos/nuttxspace/nuttx
+	url = git@github.com:RTBSD/nuttx.git
+	branch = master
+[submodule "rtos/rtemsspace/rtems"]
+	path = rtos/rtemsspace/rtems
+	url = git@github.com:RTBSD/rtems.git
+	branch = 6

@@ -2,6 +2,10 @@ set architecture aarch64
 set listsize 20
 set print pretty on
 set pagination off
-file kernel
-b usb_attach
+file kernel.debug
+#b usb_alloc_device
+#b usb_device.c:2090
+#b ukbd_attach
+#b usb_controller.c : 890
+b usb_probe_and_attach
 target remote :1234

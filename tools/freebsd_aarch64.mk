@@ -16,6 +16,7 @@ FRREEBSD_AARCH64_ROOTFS_DIR := $(RTBSD_DIR)/build/freebsd-aarch64-build$(RTBSD_D
 freebsd_aarch64_image:
 	@echo "Building image for FreeBSD(AARCH64)"
 	$(RTBSD_DIR)/tools/cheribuild/cheribuild.py freebsd-aarch64 disk-image-freebsd-aarch64 \
+		--kernel-config $(FRREEBSD_AARCH64_KERNCONFIG) \
 		--source-root $(RTBSD_DIR)/upstream \
 		--output-root $(RTBSD_DIR)/build/output \
 		--build-root $(RTBSD_DIR)/build \
@@ -75,11 +76,12 @@ freebsd_aarch64_debug:
 		-device pci-bridge,chassis_nr=1,id=pci-bridge-1,bus=pcie.0,addr=0x1 \
 		-device qemu-xhci,id=xhci,bus=pci-bridge-1,addr=0x1 \
 		-device usb-hub,bus=xhci.0,port=1 \
-		-device usb-mouse,bus=xhci.0,port=1.1 \
+		-device usb-kbd,bus=xhci.0,port=1.1 \
 		-bios $(FRREEBSD_AARCH64_QEMU_EFI) -nographic \
 		-s -S
 
 freebsd_aarch64_attach:
 	@echo "Attach FreeBSD(AARCH64) in debug mode"
 	@cp $(FRREEBSD_AARCH64_ROOTFS_DIR)/kernel kernel -f
+	@cp $(FRREEBSD_AARCH64_ROOTFS_DIR)/kernel.debug kernel.debug -f
 	@gdb-multiarch -x ./tools/.gdbinit.freebsd.aarch64

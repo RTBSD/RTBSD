@@ -15,12 +15,3 @@ rtthread_aarch64_image:
 
 rtthread_aarch64_run:
 	@cd $(RTTHREAD_SRC_DIR)/bsp/qemu-virt64-aarch64 && ./qemu.sh
-
-rtthread_rpi3b_menuconfig:
-	@cd $(RTTHREAD_SRC_DIR)/bsp/raspberry-pi/raspi3-64 && scons --menuconfig
-
-rtthread_rpi3b_image:
-	@cd $(RTTHREAD_SRC_DIR)/bsp/raspberry-pi/raspi3-64 && scons
-
-rtthread_rpi3b_run:
-	@cd $(RTTHREAD_SRC_DIR)/bsp/raspberry-pi/raspi3-64 && ./qemu-64.sh
