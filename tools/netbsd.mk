@@ -34,7 +34,6 @@ netbsd_aarch64_clean:
 	@echo "Clean NetBSD(AARCH64)"
 	@rm -rf $(RTBSD_DIR)/build/obj.$(NETBSD_AARCH64_ARCH)
 
-
 NETBSD_AMD64_MARCH := amd64
 NETBSD_AMD64_KERNCONFIG := GENERIC
 NETBSD_AMD64_MAXJOBS := 12
@@ -61,7 +60,6 @@ netbsd_amd64_run:
 	qemu-system-x86_64 -m 2048 -smp 2 \
 		-hda netbsd-amd64.img \
 		-nographic
-
 
 NETBSD_RISCV64_MARCH := riscv
 NETBSD_RISCV64_ARCH := riscv64

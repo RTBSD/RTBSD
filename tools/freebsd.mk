@@ -1,6 +1,5 @@
 export SHELL := /bin/bash
 
-
 FRREEBSD_AARCH64_VERSION := 14.3
 FRREEBSD_AARCH64_TARGET := arm64
 FRREEBSD_AARCH64_AARCH := aarch64
@@ -16,6 +15,7 @@ FRREEBSD_AARCH64_ROOTFS_DIR := $(RTBSD_DIR)/build/freebsd-aarch64-build$(RTBSD_D
 freebsd_aarch64_image:
 	@echo "Building image for FreeBSD(AARCH64)"
 	$(RTBSD_DIR)/tools/cheribuild/cheribuild.py freebsd-aarch64 disk-image-freebsd-aarch64 \
+		$(FRREEBSD_AARCH64_KERNDEBUG) \
 		--kernel-config $(FRREEBSD_AARCH64_KERNCONFIG) \
 		--source-root $(RTBSD_DIR)/upstream \
 		--output-root $(RTBSD_DIR)/build/output \
@@ -86,11 +86,10 @@ freebsd_aarch64_attach:
 	@cp $(FRREEBSD_AARCH64_ROOTFS_DIR)/kernel.debug kernel.debug -f
 	@gdb-multiarch -x ./tools/.gdbinit.freebsd.aarch64
 
-
 FRREEBSD_AMD64_VERSION := 14.3
 FRREEBSD_AMD64_TARGET := amd64
 FRREEBSD_AMD64_AARCH := amd64
-FRREEBSD_AMD64_KERNCONFIG := GENERIC
+FRREEBSD_AMD64_KERNCONFIG := GENERIC-DEBUG
 FRREEBSD_AMD64_KERNDEBUG := --freebsd-with-default-options/debug-kernel
 FRREEBSD_AMD64_VERBOSE :=
 FRREEBSD_AMD64_ROOTFS := ufs
@@ -99,10 +98,11 @@ FRREEBSD_AMD64_QEMU_EFI :=
 FRREEBSD_AMD64_SRC_DIR := $(RTBSD_DIR)/upstream/freebsd
 FRREEBSD_AMD64_ROOTFS_DIR := $(RTBSD_DIR)/build/freebsd-amd64-build$(RTBSD_DIR)/upstream/freebsd/amd64.amd64/sys/$(FRREEBSD_AMD64_KERNCONFIG)
 
-
 freebsd_amd64_image:
 	@echo "Building image for FreeBSD(AMD64)"
 	$(RTBSD_DIR)/tools/cheribuild/cheribuild.py freebsd-amd64 disk-image-freebsd-amd64 \
+		$(FRREEBSD_AMD64_KERNDEBUG) \
+		--kernel-config $(FRREEBSD_AMD64_KERNCONFIG) \
 		--source-root $(RTBSD_DIR)/upstream \
 		--output-root $(RTBSD_DIR)/build/output \
 		--build-root $(RTBSD_DIR)/build \
@@ -121,11 +121,10 @@ freebsd_amd64_run:
 		-hda freebsd-amd64.img \
 		-nographic
 
-
 FRREEBSD_RISCV64_VERSION := 14.3
 FRREEBSD_RISCV64_TARGET := riscv
 FRREEBSD_RISCV64_AARCH := riscv64
-FRREEBSD_RISCV64_KERNCONFIG := GENERIC
+FRREEBSD_RISCV64_KERNCONFIG := GENERIC-DEBUG
 FRREEBSD_RISCV64_KERNDEBUG := --freebsd-with-default-options/debug-kernel
 FRREEBSD_RISCV64_VERBOSE :=
 FRREEBSD_RISCV64_ROOTFS := ufs
@@ -134,10 +133,11 @@ FRREEBSD_RISCV64_QEMU_EFI :=
 FRREEBSD_RISCV64_SRC_DIR := $(RTBSD_DIR)/upstream/freebsd
 FRREEBSD_RISCV64_ROOTFS_DIR := $(RTBSD_DIR)/build/freebsd-riscv64-build$(RTBSD_DIR)/upstream/freebsd/riscv64.riscv64/sys/$(FRREEBSD_RISCV64_KERNCONFIG)
 
-
 freebsd_riscv64_image:
 	@echo "Building image for FreeBSD(RiscV64)"
 	$(RTBSD_DIR)/tools/cheribuild/cheribuild.py freebsd-riscv64 disk-image-freebsd-riscv64 \
+		$(FRREEBSD_RISCV64_KERNDEBUG) \
+		--kernel-config $(FRREEBSD_RISCV64_KERNCONFIG) \
 		--source-root $(RTBSD_DIR)/upstream \
 		--output-root $(RTBSD_DIR)/build/output \
 		--build-root $(RTBSD_DIR)/build \
@@ -149,3 +149,11 @@ freebsd_riscv64_image:
 		$(FRREEBSD_RISCV64_VERBOSE)
 	@cp $(RTBSD_DIR)/build/output/freebsd-riscv64.img . -f
 	@qemu-img resize freebsd-riscv64.img 4G
+
+freebsd_clean:
+	@echo "Clean FreeBSD(AARCH64/AMD64/Risv64)"
+	@rm -rf $(RTBSD_DIR)/build/freebsd-aarch64-build
+	@rm -rf $(RTBSD_DIR)/build/freebsd-amd64-build
+	@rm -rf $(RTBSD_DIR)/build/freebsd-riscv64-build
+	@rm -rf $(RTBSD_DIR)/build/output
+	@rm -rf $(RTBSD_DIR)/build/extra-files
