@@ -38,3 +38,7 @@
 	path = rtos/rtemsspace/rtems
 	url = git@github.com:RTBSD/rtems.git
 	branch = 6
+[submodule "tools/qemu"]
+	path = tools/qemu
+	url = git@github.com:RTBSD/qemu.git
+	branch = master

@@ -1,0 +1,5 @@
+set architecture aarch64
+set serial baud 115200
+set serial parity n
+file kernel.debug
+target remote /dev/ttyUSB0

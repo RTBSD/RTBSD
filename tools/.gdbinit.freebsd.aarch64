@@ -7,5 +7,7 @@ file kernel.debug
 #b usb_device.c:2090
 #b ukbd_attach
 #b usb_controller.c : 890
-b usb_probe_and_attach
+#b usb_probe_and_attach
+#b pci_host_generic_acpi.c : 123
+b pci_host_generic_acpi_attach
 target remote :1234

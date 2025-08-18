@@ -55,7 +55,7 @@ freebsd_aarch64_pci_run:
 		-device pci-bridge,chassis_nr=1,id=pci-bridge-1,bus=pcie.0,addr=0x1 \
 		-device qemu-xhci,id=xhci,bus=pci-bridge-1,addr=0x1 \
 		-device usb-hub,bus=xhci.0,port=1 \
-		-device usb-mouse,bus=xhci.0,port=1.1 \
+		-device usb-kbd,bus=xhci.0,port=1.1 \
 		-bios $(FRREEBSD_AARCH64_QEMU_EFI) -nographic
 
 freebsd_aarch64_xhci_run:
@@ -65,14 +65,13 @@ freebsd_aarch64_xhci_run:
 		-netdev type=user,id=net0 -device virtio-net-device,netdev=net0,mac=00:11:22:33:44:55 \
 		-device qemu-xhci,id=xhci \
 		-device usb-hub,bus=xhci.0,port=1 \
-		-device usb-mouse,bus=xhci.0,port=1.1 \
+		-device usb-kbd,bus=xhci.0,port=1.1 \
 		-bios $(FRREEBSD_AARCH64_QEMU_EFI) -nographic
 
 freebsd_aarch64_debug:
 	@echo "Run FreeBSD(AARCH64) in debug mode"
 	@qemu-system-aarch64 -M virt -cpu cortex-a53 -smp 4 -m 4g \
 		-drive if=none,file=freebsd-aarch64.img,id=hd0 -device virtio-blk-device,drive=hd0 \
-		-netdev type=user,id=net0 -device virtio-net-device,netdev=net0,mac=00:11:22:33:44:55 \
 		-device pci-bridge,chassis_nr=1,id=pci-bridge-1,bus=pcie.0,addr=0x1 \
 		-device qemu-xhci,id=xhci,bus=pci-bridge-1,addr=0x1 \
 		-device usb-hub,bus=xhci.0,port=1 \
@@ -85,6 +84,19 @@ freebsd_aarch64_attach:
 	@cp $(FRREEBSD_AARCH64_ROOTFS_DIR)/kernel kernel -f
 	@cp $(FRREEBSD_AARCH64_ROOTFS_DIR)/kernel.debug kernel.debug -f
 	@gdb-multiarch -x ./tools/.gdbinit.freebsd.aarch64
+
+# Boot FreeBSD from firefly pi U-boot
+# 	usb start;
+#	fatload usb 0:1 0x90100000 /efi/boot/bootaa64.efi;
+#	fatload usb 0:1 0xa0000000 /efi/boot/firefly_pi_v2.dtb;
+#	bootefi 0x90100000 0xa0000000
+#   boot with gdb: boot -d, gdb
+#   sysctl debug.kdb.enter=1, gdb
+freebsd_firefly_attach:
+	@echo "Attach FreeBSD(AARCH64) in debug mode"
+	@cp $(FRREEBSD_AARCH64_ROOTFS_DIR)/kernel kernel -f
+	@cp $(FRREEBSD_AARCH64_ROOTFS_DIR)/kernel.debug kernel.debug -f
+	@gdb-multiarch -x ./tools/.gdbinit.freebsd.firefly
 
 FRREEBSD_AMD64_VERSION := 14.3
 FRREEBSD_AMD64_TARGET := amd64

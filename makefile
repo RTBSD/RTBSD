@@ -2,7 +2,10 @@ export RTBSD_DIR := $(realpath $(CURDIR))
 export HOST_UNAME_S!=  uname -s
 export HOST_UNAME_R!=  uname -r
 export HOST_UNAME_P!=  uname -p
+export QEMU_TOOL_PATH := $(RTBSD_DIR)/build/output/qemu
+export QEMU_BIN_PATH := $(QEMU_TOOL_PATH)/bin
 
+include $(RTBSD_DIR)/tools/qemu.mk
 include $(RTBSD_DIR)/tools/freebsd.mk
 include $(RTBSD_DIR)/tools/netbsd.mk
 include $(RTBSD_DIR)/tools/rtthread.mk
@@ -19,9 +22,3 @@ llvm_x86_64_debian_toolchain:
 		-C $(RTBSD_DIR)/build/output/upstream-llvm \
 		 --strip-components=1
 	@echo "Setup x86_64 LLVM tools"
-
-qemu_aarch64_info:
-	@qemu-system-aarch64 --machine help
-	@qemu-system-aarch64 --device help
-	@qemu-system-aarch64 --cpu help
-	@qemu-system-aarch64 --version
