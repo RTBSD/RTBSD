@@ -8,17 +8,8 @@ export QEMU_BIN_PATH := $(QEMU_TOOL_PATH)/bin
 include $(RTBSD_DIR)/tools/qemu.mk
 include $(RTBSD_DIR)/tools/freebsd.mk
 include $(RTBSD_DIR)/tools/netbsd.mk
+include $(RTBSD_DIR)/tools/libbsd.mk
 include $(RTBSD_DIR)/tools/rtthread.mk
 include $(RTBSD_DIR)/tools/baremetal_raspi3.mk
 include $(RTBSD_DIR)/tools/rtems.mk
 include $(RTBSD_DIR)/tools/nuttx.mk
-
-llvm_x86_64_debian_toolchain:
-	@if [ ! -f "clang+llvm-18.1.8-x86_64-linux-gnu-ubuntu-18.04.tar.xz" ]; then \
-		@wget https://github.com/llvm/llvm-project/releases/download/llvmorg-18.1.8/clang+llvm-18.1.8-x86_64-linux-gnu-ubuntu-18.04.tar.xz; \
-	fi
-	@mkdir -p $(RTBSD_DIR)/build/output/upstream-llvm
-	@tar -xvf clang+llvm-18.1.8-x86_64-linux-gnu-ubuntu-18.04.tar.xz \
-		-C $(RTBSD_DIR)/build/output/upstream-llvm \
-		 --strip-components=1
-	@echo "Setup x86_64 LLVM tools"

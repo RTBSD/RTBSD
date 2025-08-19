@@ -12,6 +12,16 @@ FRREEBSD_AARCH64_QEMU_EFI := /usr/share/qemu-efi-aarch64/QEMU_EFI.fd
 FRREEBSD_AARCH64_SRC_DIR := $(RTBSD_DIR)/upstream/freebsd
 FRREEBSD_AARCH64_ROOTFS_DIR := $(RTBSD_DIR)/build/freebsd-aarch64-build$(RTBSD_DIR)/upstream/freebsd/arm64.aarch64/sys/$(FRREEBSD_AARCH64_KERNCONFIG)
 
+llvm_x86_64_debian_toolchain:
+	@if [ ! -f "clang+llvm-18.1.8-x86_64-linux-gnu-ubuntu-18.04.tar.xz" ]; then \
+		@wget https://github.com/llvm/llvm-project/releases/download/llvmorg-18.1.8/clang+llvm-18.1.8-x86_64-linux-gnu-ubuntu-18.04.tar.xz; \
+	fi
+	@mkdir -p $(RTBSD_DIR)/build/output/upstream-llvm
+	@tar -xvf clang+llvm-18.1.8-x86_64-linux-gnu-ubuntu-18.04.tar.xz \
+		-C $(RTBSD_DIR)/build/output/upstream-llvm \
+		 --strip-components=1
+	@echo "Setup x86_64 LLVM tools"
+
 freebsd_aarch64_image:
 	@echo "Building image for FreeBSD(AARCH64)"
 	$(RTBSD_DIR)/tools/cheribuild/cheribuild.py freebsd-aarch64 disk-image-freebsd-aarch64 \

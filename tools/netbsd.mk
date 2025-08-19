@@ -30,6 +30,16 @@ netbsd_aarch64_run:
 		-netdev type=user,id=net0 -device virtio-net-device,netdev=net0,mac=00:11:22:33:44:55 \
 		-bios $(NETBSD_AARCH64_QEMU_EFI) -nographic
 
+# Boot NetBSD from firefly pi U-boot
+# 	usb start;
+#	fatload usb 0:1 0x90100000 /efi/boot/bootaa64.efi;
+#	fatload usb 0:1 0xa0000000 /dtb/firefly/firefly_pi_v2.dtb;
+#	bootefi 0x90100000 0xa0000000
+#   boot with gdb: boot -d, gdb
+#   sysctl debug.kdb.enter=1, gdb
+netbsd_firefly_attach:
+	@echo "Attach NetBSD(AARCH64) in debug mode"
+
 netbsd_aarch64_clean:
 	@echo "Clean NetBSD(AARCH64)"
 	@rm -rf $(RTBSD_DIR)/build/obj.$(NETBSD_AARCH64_ARCH)
