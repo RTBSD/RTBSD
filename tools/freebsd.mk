@@ -1,5 +1,7 @@
 export SHELL := /bin/bash
 
+FREEBSD_IMAGE_DIR := /mnt/d/tftpboot
+
 FRREEBSD_AARCH64_VERSION := 14.3
 FRREEBSD_AARCH64_TARGET := arm64
 FRREEBSD_AARCH64_AARCH := aarch64
@@ -37,7 +39,9 @@ freebsd_aarch64_image:
 		--skip-update \
 		$(FRREEBSD_AARCH64_VERBOSE)
 	@cp $(RTBSD_DIR)/build/output/freebsd-aarch64.img . -f
-	@qemu-img resize freebsd-aarch64.img 4G
+	@cp $(FRREEBSD_AARCH64_ROOTFS_DIR)/kernel $(FREEBSD_IMAGE_DIR)/kernel -f
+	@cp $(FRREEBSD_AARCH64_ROOTFS_DIR)/kernel.debug $(FREEBSD_IMAGE_DIR)/kernel.debug -f
+#	@qemu-img resize freebsd-aarch64.img 4G
 
 freebsd_aarch64_run:
 	@echo "Run FreeBSD(AARCH64)"
@@ -99,6 +103,13 @@ freebsd_aarch64_attach:
 # 	usb start;
 #	fatload usb 0:1 0x90100000 /efi/boot/bootaa64.efi;
 #	fatload usb 0:1 0xa0000000 /efi/boot/firefly_pi_v2.dtb;
+#	bootefi 0x90100000 0xa0000000
+#   boot with gdb: boot -d, gdb
+#   sysctl debug.kdb.enter=1, gdb
+
+# Boot FreeBSD from firefly dsk v1 U-boot
+#	fatload scsi 0:1 0x90100000 /efi/boot/bootaa64.efi;
+#	fatload scsi 0:1 0xa0000000 /efi/boot/firefly_dsk_v1.dtb;
 #	bootefi 0x90100000 0xa0000000
 #   boot with gdb: boot -d, gdb
 #   sysctl debug.kdb.enter=1, gdb

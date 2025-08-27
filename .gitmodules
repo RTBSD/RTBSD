@@ -1,11 +1,11 @@
 [submodule "tools/cheribuild"]
 	path = tools/cheribuild
 	url = git@github.com:RTBSD/cheribuild.git
-	branch = main
+	branch = firefly
 [submodule "upstream/freebsd"]
 	path = upstream/freebsd
 	url = git@github.com:RTBSD/freebsd-src.git
-	branch = releng/14.3
+	branch = firefly
 [submodule "rtos/rt-thread"]
 	path = rtos/rt-thread
 	url = git@github.com:RTBSD/rt-thread.git
@@ -13,7 +13,7 @@
 [submodule "upstream/netbsd"]
 	path = upstream/netbsd
 	url = git@github.com:RTBSD/NetBSD-src.git
-	branch = netbsd-10
+	branch = firefly
 [submodule "libbsd"]
 	path = libbsd
 	url = git@github.com:RTBSD/LibBSD.git
