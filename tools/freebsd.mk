@@ -111,8 +111,11 @@ freebsd_aarch64_attach:
 #	fatload scsi 0:1 0x90100000 /efi/boot/bootaa64.efi;
 #	fatload scsi 0:1 0xa0000000 /efi/boot/firefly_dsk_v1.dtb;
 #	bootefi 0x90100000 0xa0000000
-#   boot with gdb: boot -d, gdb
-#   sysctl debug.kdb.enter=1, gdb
+
+# Boot FreeBSD from firefly dsk v3 U-boot
+#	fatload scsi 0:1 0x90100000 /efi/boot/bootaa64.efi;
+#	fatload scsi 0:1 0xa0000000 /efi/boot/firefly_dsk_v3.dtb;
+#	bootefi 0x90100000 0xa0000000
 freebsd_firefly_attach:
 	@echo "Attach FreeBSD(AARCH64) in debug mode"
 	@cp $(FRREEBSD_AARCH64_ROOTFS_DIR)/kernel kernel -f
