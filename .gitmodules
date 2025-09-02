@@ -6,10 +6,6 @@
 	path = upstream/freebsd
 	url = git@github.com:RTBSD/freebsd-src.git
 	branch = firefly
-[submodule "rtos/rt-thread"]
-	path = rtos/rt-thread
-	url = git@github.com:RTBSD/rt-thread.git
-	branch = master
 [submodule "upstream/netbsd"]
 	path = upstream/netbsd
 	url = git@github.com:RTBSD/NetBSD-src.git
@@ -18,27 +14,3 @@
 	path = libbsd
 	url = git@github.com:RTBSD/LibBSD.git
 	branch = main
-[submodule "rtos/raspi3-baremetal"]
-	path = rtos/raspi3-baremetal
-	url = git@github.com:RTBSD/raspi3-baremetal.git
-	branch = master
-[submodule "rtos/nuttxspace/nuttx-apps"]
-	path = rtos/nuttxspace/nuttx-apps
-	url = git@github.com:RTBSD/nuttx-apps.git
-	branch = master
-[submodule "rtos/uniproton"]
-	path = rtos/uniproton
-	url = git@github.com:RTBSD/UniProton.git
-	branch = master
-[submodule "rtos/nuttxspace/nuttx"]
-	path = rtos/nuttxspace/nuttx
-	url = git@github.com:RTBSD/nuttx.git
-	branch = master
-[submodule "rtos/rtemsspace/rtems"]
-	path = rtos/rtemsspace/rtems
-	url = git@github.com:RTBSD/rtems.git
-	branch = 6
-[submodule "tools/qemu"]
-	path = tools/qemu
-	url = git@github.com:RTBSD/qemu.git
-	branch = master
