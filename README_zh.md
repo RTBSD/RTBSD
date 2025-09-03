@@ -13,6 +13,7 @@ RTBSD（RTOS + BSD）是一款专为嵌入式系统开发量身打造的环境�
 - 3. ACPI 表解析及驱动匹配初始化：移植自 FreeBSD 14.3，可对 ACPI 表进行解析，并完成设备和驱动的自动匹配与初始化。
 - 4. ACPI CPPC CPU 调频：移植自 NetBSD 10.1 的实现，实现 ACPI CPPC 模式下的 CPU 调频功能。
 - 5. ACPI CPU 温度获取：来自 NetBSD 10.1，能够获取 ACPI 模式下的 CPU 温度信息。
+- 6. GDB Stub 机制移植：从 FreeBSD 14.3 移植而来，支持驱动和框架的调试
 
 RTBSD 的后续开发将聚焦于进一步扩展驱动支持，具体计划包括：
 
@@ -108,9 +109,32 @@ make libbsd_fdt_aarch64
 make libbsd_acpi_aarch64
 ```
 
-- 链接 LibBSD 静态库到 RTOS 运行
+- 链接 LibBSD 静态库到 RTOS 运行，可以看到启动后加载了一系列 BSD 驱动模块，并且和设备树中描述的设备匹配后能进行驱动初始化
+> 使用 Firefly v2 开发板运行 FreeRTOS
 
+![load_drivers](./doc/figs/load_drivers.png)
 ![run_libbsd](./doc/figs/run_libbsd.png)
+
+- 使用 GDB Stub 利用串口进行远程调试
+
+```
+set remotetimeout 1000
+set architecture aarch64
+set serial baud 115200
+set serial parity n
+set can-use-hw-watchpoints 1
+set breakpoint auto-hw on
+set remote hardware-breakpoint-limit 6
+set remote hardware-watchpoint-limit 4
+file freertos.elf
+target remote /dev/ttyUSB0
+```
+
+![libbsd_gdbstub](./doc/figs/libbsd_gdbstub.png)
+
+- 使用 LibBSD, 在 RTOS 上也能发现 PCI 总线上的设备 !!!
+
+![find_pcie_device](./doc/figs/find_pcie_device.png)
 
 ## 4. 设计
 

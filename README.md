@@ -109,9 +109,33 @@ make libbsd_fdt_aarch64
 make libbsd_acpi_aarch64
 ```
 
-- Link LibBSD libraries RTOS and start running
+- Link LibBSD libraries RTOS and start running, loading a doze of BSD driver modules and apply driver as FDT described
+> Tested on Firefly v2 dev board with FreeRTIS
 
+
+![load_drivers](./doc/figs/load_drivers.png)
 ![run_libbsd](./doc/figs/run_libbsd.png)
+
+- Remote Debugging with GDB stub from FreeBSD,
+
+```
+set remotetimeout 1000
+set architecture aarch64
+set serial baud 115200
+set serial parity n
+set can-use-hw-watchpoints 1
+set breakpoint auto-hw on
+set remote hardware-breakpoint-limit 6
+set remote hardware-watchpoint-limit 4
+file freertos.elf
+target remote /dev/ttyUSB0
+```
+
+![libbsd_gdbstub](./doc/figs/libbsd_gdbstub.png)
+
+- With LibBSD, one can detect devices on PCI bus in **RTOS** !!!
+
+![find_pcie_device](./doc/figs/find_pcie_device.png)
 
 ## 4. Design
 
