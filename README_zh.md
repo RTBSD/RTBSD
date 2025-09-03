@@ -94,27 +94,23 @@ make netbsd_aarch64_run
 
 ![netbsd_run](./doc/figs/netbsd_run.png)
 
-## 3. 编译 RT-Thread
-
-- 参考[RT-Thread/Env](https://github.com/RT-Thread/env) 搭建 RT-Thread 开发环境
+## 3. 编译 LibBSD
 
 ### 3.1 AARCH64
 
-- 构建 RT-Thread 镜像
+- 构建 LibBSD 静态库，分别使用设备树总线和 ACPI 总线
 
 ```
-export RTT_EXEC_PATH=$(whereis aarch64-none-elf-gcc | awk '{print $2}' | xargs dirname)
-make rtthread_aarch64_libbsd
-make rtthread_aarch64_image
+make libbsd_fdt_aarch64
 ```
 
-- 启动 RT-Thread
-
 ```
-make rtthread_aarch64_run
+make libbsd_acpi_aarch64
 ```
 
-![run_rtthread](./doc/figs/run_rtthread.png)
+- 链接 LibBSD 静态库到 RTOS 运行
+
+![run_libbsd](./doc/figs/run_libbsd.png)
 
 ## 4. 设计
 

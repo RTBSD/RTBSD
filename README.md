@@ -95,27 +95,23 @@ make netbsd_aarch64_run
 
 ![netbsd_run](./doc/figs/netbsd_run.png)
 
-## 3. Building RT-Thread
-
-- Refer to [RT-Thread/Env](https://github.com/RT-Thread/env) to build the RT-Thread development environment.
+## 3. Building and run LibBSD
 
 ### 3.1 AARCH64
 
-- Build the RT-Thread image
+- Building LibBSD libraries，with flatted device tree bus or ACPI bus
 
 ```
-export RTT_EXEC_PATH=$(whereis aarch64-none-elf-gcc | awk '{print $2}' | xargs dirname)
-make rtthread_aarch64_libbsd
-make rtthread_aarch64_image
+make libbsd_fdt_aarch64
 ```
 
-- Running RT-Thread by Qemu
-
 ```
-make rtthread_aarch64_run
+make libbsd_acpi_aarch64
 ```
 
-![run_rtthread](./doc/figs/run_rtthread.png)
+- Link LibBSD libraries RTOS and start running
+
+![run_libbsd](./doc/figs/run_libbsd.png)
 
 ## 4. Design
 
