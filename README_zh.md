@@ -25,7 +25,7 @@ RTBSD 的后续开发将聚焦于进一步扩展驱动支持，具体计划包�
 本仓库目前支持在 Debian 12 AMD64 环境下使用，集成了下面几个方面的功能
 - 1. 完整构建 FreeBSD AARCH64 的镜像，通过 QEMU 进行启动
 - 2. 完整构建 NetBSD AARCH64 的镜像，通过 QEMU 进行启动
-- 3. 构建 LibBSD 在 RT-Thread 中使用，通过 QEMU 进行启动
+- 3. 构建 LibBSD 在 FreeRTOS 中使用，在开发板上进行启动
 
 ```
 git clone git@github.com:RTBSD/RTBSD.git --recursive rtbsd
