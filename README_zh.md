@@ -41,63 +41,9 @@ cd rtbsd
 
 - 下面具体说明下以上功能，
 
-## 1. 编译 FreeBSD
-
-- 安装必要的软件包
-
-```
-sudo apt install autoconf automake libtool pkg-config clang bison cmake mercurial ninja-build samba flex texinfo time libglib2.0-dev libpixman-1-dev libarchive-dev libarchive-tools libbz2-dev libattr1-dev libcap-ng-dev libexpat1-dev libgmp-dev bc
-sudo apt install qemu-system-arm qemu-system-x86 qemu-system-riscv64
-sudo apt-get install qemu-efi-aarch64
-```
-
-- 下载 LLVM 编译链
-
-```
-make llvm_x86_64_debian_toolchain
-```
+## 1. 编译 LibBSD
 
 ### 1.1 AARCH64
-
-- 构建 FreeBSD 镜像
-
-```
-make freebsd_aarch64_image
-```
-
-![freebsd_image](./doc/figs/freebsd_image.png)
-
-- 使用 QEMU 启动 FreeBSD
-
-```
-make freebsd_aarch64_run
-```
-
-![freebsd_run](./doc/figs/freebsd_run.png)
-
-## 2. 编译 NETBSD
-
-### 2.1 AARCH64
-
-- 构建 NetBSD 镜像
-
-```
-make netbsd_aarch64_image
-```
-
-![netbsd_image](./doc/figs/netbsd_image.png)
-
-- 使用 QEMU 启动 NetBSD
-
-```
-make netbsd_aarch64_run
-```
-
-![netbsd_run](./doc/figs/netbsd_run.png)
-
-## 3. 编译 LibBSD
-
-### 3.1 AARCH64
 
 - 构建 LibBSD 静态库，分别使用设备树总线和 ACPI 总线
 
@@ -132,9 +78,65 @@ target remote /dev/ttyUSB0
 
 ![libbsd_gdbstub](./doc/figs/libbsd_gdbstub.png)
 
+
 - 使用 LibBSD, 在 RTOS 上也能发现 PCI 总线上的设备 !!!
 
 ![find_pcie_device](./doc/figs/find_pcie_device.png)
+
+
+## 2. 编译 FreeBSD
+
+- 安装必要的软件包
+
+```
+sudo apt install autoconf automake libtool pkg-config clang bison cmake mercurial ninja-build samba flex texinfo time libglib2.0-dev libpixman-1-dev libarchive-dev libarchive-tools libbz2-dev libattr1-dev libcap-ng-dev libexpat1-dev libgmp-dev bc
+sudo apt install qemu-system-arm qemu-system-x86 qemu-system-riscv64
+sudo apt-get install qemu-efi-aarch64
+```
+
+- 下载 LLVM 编译链
+
+```
+make llvm_x86_64_debian_toolchain
+```
+
+### 2.1 AARCH64
+
+- 构建 FreeBSD 镜像
+
+```
+make freebsd_aarch64_image
+```
+
+![freebsd_image](./doc/figs/freebsd_image.png)
+
+- 使用 QEMU 启动 FreeBSD
+
+```
+make freebsd_aarch64_run
+```
+
+![freebsd_run](./doc/figs/freebsd_run.png)
+
+## 3. 编译 NETBSD
+
+### 3.1 AARCH64
+
+- 构建 NetBSD 镜像
+
+```
+make netbsd_aarch64_image
+```
+
+![netbsd_image](./doc/figs/netbsd_image.png)
+
+- 使用 QEMU 启动 NetBSD
+
+```
+make netbsd_aarch64_run
+```
+
+![netbsd_run](./doc/figs/netbsd_run.png)
 
 ## 4. 设计
 

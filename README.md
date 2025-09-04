@@ -13,6 +13,7 @@ Currently, RTBSD is still in the early stage of development. The main features t
 - 3. ACPI table parsing and driver matching initialization: Ported from FreeBSD 14.3, it can parse the ACPI table and complete the automatic matching and initialization of devices and drivers.
 - 4. ACPI CPPC CPU frequency adjustment: Ported from the implementation of NetBSD 10.1, it realizes the CPU frequency adjustment function in the ACPI CPPC mode.
 - 5. ACPI CPU temperature acquisition: From NetBSD 10.1, it can obtain the CPU temperature information in the ACPI mode.
+- 6. GDB Stub: From FreeBSD 14.3, which support remote GDB debug with serial
 
 The subsequent development of RTBSD will focus on further expanding driver support. The specific plans include:
 
@@ -41,63 +42,9 @@ cd rtbsd
 
 - The following specifically describes the above functions.
 
-## 1. Building FreeBSD
-
-- Install the necessary software packages
-
-```
-sudo apt install autoconf automake libtool pkg-config clang bison cmake mercurial ninja-build samba flex texinfo time libglib2.0-dev libpixman-1-dev libarchive-dev libarchive-tools libbz2-dev libattr1-dev libcap-ng-dev libexpat1-dev libgmp-dev bc
-sudo apt install qemu-system-arm
-sudo apt-get install qemu-efi-aarch64
-```
-
-- Download the LLVM compilation chain
-
-```
-make llvm_x86_64_debian_toolchain
-```
+## 1. Building and run LibBSD
 
 ### 1.1 AARCH64
-
-- Build the FreeBSD image
-
-```
-make freebsd_aarch64_image
-```
-
-![freebsd_image](./doc/figs/freebsd_image.png)
-
-- Running FreeBSD by QEMU
-
-```
-make freebsd_aarch64_run
-```
-
-![freebsd_run](./doc/figs/freebsd_run.png)
-
-## 2. Building NETBSD
-
-### 2.1 AARCH64
-
-- Build the NetBSD image
-
-```
-make netbsd_aarch64_image
-```
-
-![netbsd_image](./doc/figs/netbsd_image.png)
-
-- Running NetBSD by QEMU
-
-```
-make netbsd_aarch64_run
-```
-
-![netbsd_run](./doc/figs/netbsd_run.png)
-
-## 3. Building and run LibBSD
-
-### 3.1 AARCH64
 
 - Building LibBSD libraries，with flatted device tree bus or ACPI bus
 
@@ -136,6 +83,61 @@ target remote /dev/ttyUSB0
 - With LibBSD, one can detect devices on PCI bus in **RTOS** !!!
 
 ![find_pcie_device](./doc/figs/find_pcie_device.png)
+
+## 2. Building FreeBSD
+
+- Install the necessary software packages
+
+```
+sudo apt install autoconf automake libtool pkg-config clang bison cmake mercurial ninja-build samba flex texinfo time libglib2.0-dev libpixman-1-dev libarchive-dev libarchive-tools libbz2-dev libattr1-dev libcap-ng-dev libexpat1-dev libgmp-dev bc
+sudo apt install qemu-system-arm
+sudo apt-get install qemu-efi-aarch64
+```
+
+- Download the LLVM compilation chain
+
+```
+make llvm_x86_64_debian_toolchain
+```
+
+### 2.1 AARCH64
+
+- Build the FreeBSD image
+
+```
+make freebsd_aarch64_image
+```
+
+![freebsd_image](./doc/figs/freebsd_image.png)
+
+- Running FreeBSD by QEMU
+
+```
+make freebsd_aarch64_run
+```
+
+![freebsd_run](./doc/figs/freebsd_run.png)
+
+## 3. Building NETBSD
+
+### 3.1 AARCH64
+
+- Build the NetBSD image
+
+```
+make netbsd_aarch64_image
+```
+
+![netbsd_image](./doc/figs/netbsd_image.png)
+
+- Running NetBSD by QEMU
+
+```
+make netbsd_aarch64_run
+```
+
+![netbsd_run](./doc/figs/netbsd_run.png)
+
 
 ## 4. Design
 
