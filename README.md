@@ -57,7 +57,7 @@ make libbsd_acpi_aarch64
 ```
 
 - Link LibBSD libraries RTOS and start running, loading a doze of BSD driver modules and apply driver as FDT described
-> Tested on Firefly v2 dev board with FreeRTIS
+> Tested on Firefly v2 dev board with FreeRTOS
 
 
 ![load_drivers](./doc/figs/load_drivers.png)
