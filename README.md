@@ -63,7 +63,7 @@ make libbsd_acpi_aarch64
 ![load_drivers](./doc/figs/load_drivers.png)
 ![run_libbsd](./doc/figs/run_libbsd.png)
 
-- Remote Debugging with GDB stub from FreeBSD,
+- Remote Debugging with GDB stub from LibBSD-FreeRTOS,
 
 ```
 set remotetimeout 1000
