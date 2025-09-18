@@ -14,3 +14,11 @@
 	path = libbsd
 	url = git@github.com:RTBSD/LibBSD.git
 	branch = main
+[submodule "rtos/rtems-space/rtems"]
+	path = rtos/rtems-space/rtems
+	url = git@github.com:RTBSD/rtems.git
+	branch = 6
+[submodule "rtos/rtems-space/rtems-libbsd"]
+	path = rtos/rtems-space/rtems-libbsd
+	url = git@github.com:RTBSD/rtems-libbsd.git
+	branch = 6-freebsd-14

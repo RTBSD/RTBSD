@@ -1,0 +1,23 @@
+/* SPDX-License-Identifier: BSD-2-Clause */
+
+/dts-v1/;
+
+/ {
+	#address-cells = <0x02>;
+	#size-cells = <0x02>;
+
+	amba {
+		compatible = "simple-bus";
+		#address-cells = <0x02>;
+		#size-cells = <0x02>;
+		ranges;
+
+		usb0@31a08000 {
+			compatible = "generic-xhci";
+			status = "okay";
+			interrupt-parent = <0x01>;
+			interrupts = <0x00 16 0x04>;
+			reg = <0x0 0x31a08000 0x0 0x18000>;
+		};
+	};
+};
