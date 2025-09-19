@@ -121,10 +121,12 @@ rtems_clean:
 	@rm $(RTEMS_SRC_DIR)/build -rf
 	@rm $(RTEMS_SRC_DIR)/.lock-waf* -f
 
-rtems_firefly_v2_image:
+rtems_firefly_v2_bsp:
 	@echo -n > $(RTEMS_SRC_DIR)/config.ini
 	$(call config_rtems_bsp,firefly_v2.ini,$(RTEMS_SRC_DIR))
 	$(call build_rtems_bsp,$(RTEMS_AARCH64_TOOL_PREFIX),$(RTEMS_SRC_DIR))
+
+rtems_firefly_v2_image: libbsd_aarch64
 	$(call build_rtems_appimage,firefly_v2)
 
 rtems_zynq_image:

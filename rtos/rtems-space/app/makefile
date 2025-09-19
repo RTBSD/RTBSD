@@ -5,7 +5,9 @@
 PGM=${ARCH}/rtems.exe
 
 # C source names
-CSRCS =  main.c posix_main.c
+CSRCS =  main.c \
+		 posix_main.c \
+		 bsd_osal_posix.c
 COBJS = $(CSRCS:%.c=${ARCH}/%.o)
 
 # Libraries
@@ -37,7 +39,12 @@ endef
 subdir:
 	@mkdir -p ${ARCH}/src
 
-all: subdir ${ARCH} $(PGM)
+libbsd:
+	@cp ../../../libbsd/libbsd.a . -f
+	@cp ../../../libbsd/osal/bsd_osal_posix.c . -f
+	@cp ../../../libbsd/osal/bsd_osal.h . -f
+
+all: libbsd subdir ${ARCH} $(PGM)
 	@echo "BSP: $(RTEMS_MAKEFILE_PATH)"
 
 ifeq ($(OS),Windows_NT)
