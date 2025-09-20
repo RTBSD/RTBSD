@@ -7,3 +7,4 @@ include $(RTBSD_DIR)/tools/freebsd.mk
 include $(RTBSD_DIR)/tools/netbsd.mk
 include $(RTBSD_DIR)/tools/libbsd.mk
 include $(RTBSD_DIR)/tools/rtems.mk
+include $(RTBSD_DIR)/tools/haiku.mk

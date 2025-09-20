@@ -22,3 +22,11 @@
 	path = rtos/rtems-space/rtems-libbsd
 	url = git@github.com:RTBSD/rtems-libbsd.git
 	branch = 6-freebsd-14
+[submodule "downstream/haiku/buildtools"]
+	path = downstream/haiku/buildtools
+	url = git@github.com:RTBSD/buildtools.git
+	branch = master
+[submodule "downstream/haiku/haiku"]
+	path = downstream/haiku/haiku
+	url = git@github.com:RTBSD/haiku.git
+	branch = master
