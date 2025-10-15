@@ -21,7 +21,17 @@ netbsd_aarch64_image:
 		releasekernel=$(NETBSD_AARCH64_KERNCONFIG)
 	@gunzip -d $(NETBSD_AARCH64_IMAGES)/arm64.img.gz
 	@cp $(NETBSD_AARCH64_IMAGES)/arm64.img ./netbsd-aarch64.img
-	@qemu-img resize ./netbsd-aarch64.img 20g
+	@cp ./netbsd-aarch64.img /mnt/d/tftpboot/netbsd-aarch64.img -f
+#	@qemu-img resize ./netbsd-aarch64.img 20g
+
+netbsd_aarch64_refernce:
+	@echo "Building refernce for NetBSD(AARCH64)"
+	@cd $(NETBSD_AARCH64_SRC_DIR) && \
+		bear -- ./build.sh -U -u -j$(NETBSD_AARCH64_MAXJOBS) \
+		-O $(RTBSD_DIR)/build/obj.$(NETBSD_AARCH64_ARCH) \
+		-m $(NETBSD_AARCH64_MARCH) \
+		-a $(NETBSD_AARCH64_ARCH) \
+		tools kernel.gdb=$(NETBSD_AARCH64_KERNCONFIG)
 
 netbsd_aarch64_run:
 	@echo "Run NetBSD(AARCH64)"
@@ -35,8 +45,36 @@ netbsd_aarch64_run:
 #	fatload usb 0:1 0x90100000 /efi/boot/bootaa64.efi;
 #	fatload usb 0:1 0xa0000000 /dtb/firefly/firefly_pi_v2.dtb;
 #	bootefi 0x90100000 0xa0000000
-#   boot with gdb: boot -d, gdb
-#   sysctl debug.kdb.enter=1, gdb
+# 	userconf set smp=0
+# 	boot hd1b:/netbsd -v
+
+# Boot NetBSD from firefly dsk v2 U-boot
+#	fatload nvme 0:1 0x90100000 /efi/boot/bootaa64.efi;
+#	fatload nvme 0:1 0xa0000000 /dtb/firefly/firefly_pi_v2.dtb;
+#	bootefi 0x90100000 0xa0000000
+
+
+# userconf set bootdev=dk1
+# userconf set sysdb=0
+
+# Check pci devices
+#  pcictl pci0 list -N
+
+# vi /etc/wpa_supplicant.conf
+# network={
+#     ssid="phytium_net"
+#     psk="phytium-net"
+# }
+
+# vi /etc/rc.conf
+# ifconfig_urtwn0="up"
+# ifconfig_rtwn0="up"
+# ipv6_enable="NO"
+# dhcpcd=YES
+# wpa_supplicant=YES
+
+# ifconfig urtwn0 list scan
+# ifconfig rtwn0 list scan
 netbsd_firefly_attach:
 	@echo "Attach NetBSD(AARCH64) in debug mode"
 

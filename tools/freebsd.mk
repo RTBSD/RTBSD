@@ -14,6 +14,32 @@ FRREEBSD_AARCH64_QEMU_EFI := /usr/share/qemu-efi-aarch64/QEMU_EFI.fd
 FRREEBSD_AARCH64_SRC_DIR := $(RTBSD_DIR)/upstream/freebsd
 FRREEBSD_AARCH64_ROOTFS_DIR := $(RTBSD_DIR)/build/freebsd-aarch64-build$(RTBSD_DIR)/upstream/freebsd/arm64.aarch64/sys/$(FRREEBSD_AARCH64_KERNCONFIG)
 
+gcc_x86_64_debian_toolchain:
+	@if [ ! -f "xpack-aarch64-none-elf-gcc-14.2.1-1.1-linux-x64.tar.gz" ]; then \
+		wget https://github.com/xpack-dev-tools/aarch64-none-elf-gcc-xpack/releases/download/v14.2.1-1.1/xpack-aarch64-none-elf-gcc-14.2.1-1.1-linux-x64.tar.gz; \
+	fi
+	@mkdir -p $(RTBSD_DIR)/build/output/upstream-aarch64-none-elf
+	@tar -zxvf xpack-aarch64-none-elf-gcc-14.2.1-1.1-linux-x64.tar.gz \
+		-C $(RTBSD_DIR)/build/output/upstream-aarch64-none-elf \
+		 --strip-components=1
+	@echo "Setup x86_64 GCC aarch64-none-elf tools"	
+	@if [ ! -f "xpack-arm-none-eabi-gcc-14.2.1-1.1-linux-x64.tar.gz" ]; then \
+		wget https://github.com/xpack-dev-tools/arm-none-eabi-gcc-xpack/releases/download/v14.2.1-1.1/xpack-arm-none-eabi-gcc-14.2.1-1.1-linux-x64.tar.gz; \
+	fi
+	@mkdir -p $(RTBSD_DIR)/build/output/upstream-arm-none-eabi-gcc
+	@tar -zxvf xpack-arm-none-eabi-gcc-14.2.1-1.1-linux-x64.tar.gz \
+		-C $(RTBSD_DIR)/build/output/upstream-arm-none-eabi-gcc \
+		 --strip-components=1
+	@echo "Setup x86_64 GCC arm-none-eabi tools"
+	@echo "source ~/.bashrc to active setting !!!"
+#	@sed -i '/export PATH=.*upstream-aarch64-none-elf\/bin/d' ~/.bashrc
+#	@echo "export PATH=$$PATH:$(RTBSD_DIR)/build/output/upstream-aarch64-none-elf/bin" >> ~/.bashrc
+#	@sed -i '/export PATH=.*upstream-arm-none-eabi-gcc\/bin/d' ~/.bashrc
+#	@echo "export PATH=$$PATH:$(RTBSD_DIR)/build/output/upstream-arm-none-eabi-gcc/bin" >> ~/.bashrc
+
+# Debian13 do not have libtinfo5, we need to install it manually
+# 	download https://archive.ubuntu.com/ubuntu/pool/universe/n/ncurses/libtinfo5_6.3-2_amd64.deb
+# 	sudo dpkg -i libtinfo5_6.3-2_amd64.deb
 llvm_x86_64_debian_toolchain:
 	@if [ ! -f "clang+llvm-18.1.8-x86_64-linux-gnu-ubuntu-18.04.tar.xz" ]; then \
 		wget https://github.com/llvm/llvm-project/releases/download/llvmorg-18.1.8/clang+llvm-18.1.8-x86_64-linux-gnu-ubuntu-18.04.tar.xz; \
@@ -41,7 +67,31 @@ freebsd_aarch64_image:
 	@cp $(RTBSD_DIR)/build/output/freebsd-aarch64.img . -f
 	@cp $(FRREEBSD_AARCH64_ROOTFS_DIR)/kernel $(FREEBSD_IMAGE_DIR)/kernel -f
 	@cp $(FRREEBSD_AARCH64_ROOTFS_DIR)/kernel.debug $(FREEBSD_IMAGE_DIR)/kernel.debug -f
+	@cp ./freebsd-aarch64.img /mnt/d/tftpboot/freebsd-aarch64.img -f
 #	@qemu-img resize freebsd-aarch64.img 4G
+
+freebsd_aarch64_kernel:
+	@echo "Building index for FreeBSD(AARCH64)"
+	@mkdir -p $(RTBSD_DIR)/build/freebsd-aarch64-index
+	MAKEOBJDIRPREFIX=$(RTBSD_DIR)/build/freebsd-aarch64-index \
+		$(FRREEBSD_AARCH64_SRC_DIR)/tools/build/make.py \
+		--debug --cross-bindir=$(RTBSD_DIR)/build/output/upstream-llvm/bin \
+		TARGET=arm64 \
+		TARGET_ARCH=aarch64 \
+		KERNCONF=GENERIC-DEBUG \
+		buildworld -j 12
+
+	MAKEOBJDIRPREFIX=$(RTBSD_DIR)/build/freebsd-aarch64-index \
+		$(FRREEBSD_AARCH64_SRC_DIR)/tools/build/make.py \
+		--debug --cross-bindir=$(RTBSD_DIR)/build/output/upstream-llvm/bin \
+		TARGET=arm64 \
+		TARGET_ARCH=aarch64 \
+		KERNCONF=GENERIC-DEBUG \
+		buildkernel -j 12
+
+freebsd_aarch64_index:
+	bear --output $(FRREEBSD_AARCH64_SRC_DIR)/compile_commands.json -- \
+	make freebsd_aarch64_kernel
 
 freebsd_aarch64_run:
 	@echo "Run FreeBSD(AARCH64)"
@@ -104,6 +154,7 @@ freebsd_aarch64_attach:
 #	fatload usb 0:1 0x90100000 /efi/boot/bootaa64.efi;
 #	fatload usb 0:1 0xa0000000 /efi/boot/firefly_pi_v2.dtb;
 #	bootefi 0x90100000 0xa0000000
+
 #   boot with gdb: boot -d, gdb
 #   sysctl debug.kdb.enter=1, gdb
 
