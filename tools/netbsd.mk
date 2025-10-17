@@ -48,6 +48,21 @@ netbsd_aarch64_run:
 # 	userconf set smp=0
 # 	boot hd1b:/netbsd -v
 
+# sysctl net.link.ieee80211.debug
+# debug scan
+# sysctl -w net.link.ieee80211.vap0.debug=0
+# sysctl -w net.link.ieee80211.vap0.debug=0x00200000
+# ifconfig rtwn0 list scan
+
+# debug assoc
+# sysctl -w net.link.ieee80211.vap0.debug=0x00400000 | 0x00800000 | 0x01000000 | 0x04000000 | 0x40000000
+# sysctl -w net.link.ieee80211.vap0.debug=0x45800000
+# ifconfig rtwn0 up
+# ifconfig rtwn0 nwid "rtbsd" mode 11g
+# wpa_supplicant -i rtwn0 -c /etc/wpa_supplicant.conf -B
+# ping www.baidu.com
+
+
 # Boot NetBSD from firefly dsk v2 U-boot
 #	fatload nvme 0:1 0x90100000 /efi/boot/bootaa64.efi;
 #	fatload nvme 0:1 0xa0000000 /dtb/firefly/firefly_pi_v2.dtb;
@@ -74,7 +89,6 @@ netbsd_aarch64_run:
 # wpa_supplicant=YES
 
 # ifconfig urtwn0 list scan
-# ifconfig rtwn0 list scan
 netbsd_firefly_attach:
 	@echo "Attach NetBSD(AARCH64) in debug mode"
 
