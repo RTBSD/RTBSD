@@ -22,8 +22,8 @@ RK3399_YELLOW := \033[1;33m
 RK3399_NC := \033[0m
 
 # Default target
-.PHONY: rk3399_all
-rk3399_all: rk3399_check_tools rk3399_build_atf rk3399_build_uboot_mmc
+.PHONY: rk3399_fw
+rk3399_fw: rk3399_check_tools rk3399_build_atf rk3399_build_uboot_mmc
 
 # Check required tools
 .PHONY: rk3399_check_tools
@@ -217,7 +217,7 @@ rk3399_help:
 	@echo "RK3399 Build Script"
 	@echo ""
 	@echo "Available targets:"
-	@echo "  rk3399_all                - Complete build process (ATF + U-Boot + SPI images)"
+	@echo "  rk3399_fw                - Complete build process (ATF + U-Boot + SPI images)"
 	@echo "  rk3399_build_atf          - Build ARM Trusted Firmware only"
 	@echo "  rk3399_build_uboot_mmc    - Build MMC version of U-Boot"
 	@echo "  rk3399_create_mmc_image   - Create combined MMC image (20MB)"
@@ -228,10 +228,10 @@ rk3399_help:
 	@echo "  rk3399_help               - Show this help message"
 	@echo ""
 	@echo "Usage examples:"
-	@echo "  make rk3399_all           # Complete build"
+	@echo "  make rk3399_fw           # Complete build"
 	@echo "  make rk3399_build_atf     # Build ATF only"
 	@echo "  make rk3399_clean         # Clean build files"
 
 # Update the all target to include mmc image creation
-.PHONY: rk3399_all
-rk3399_all: rk3399_check_tools rk3399_build_atf rk3399_build_uboot_mmc rk3399_create_mmc_image
+.PHONY: rk3399_fw
+rk3399_fw: rk3399_check_tools rk3399_build_atf rk3399_build_uboot_mmc rk3399_create_mmc_image
