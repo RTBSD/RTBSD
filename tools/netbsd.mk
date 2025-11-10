@@ -77,8 +77,7 @@ netbsd_aarch64_run:
 
 # vi /etc/wpa_supplicant.conf
 # network={
-#     ssid="phytium_net"
-#     psk="phytium-net"
+#     ssid="rtbsd"
 # }
 
 # vi /etc/rc.conf
