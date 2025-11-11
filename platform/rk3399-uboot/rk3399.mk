@@ -1,18 +1,18 @@
 # RK3399 Build Configuration
-RK3399_ATF_DIR := $(RTBSD_DIR)/platform/rk3399/arm-trusted-firmware
+RK3399_ATF_DIR := $(RTBSD_DIR)/platform/rk3399-uboot/arm-trusted-firmware
 RK3399_ATF_REPO := https://github.com/ARM-software/arm-trusted-firmware.git
 RK3399_ATF_COMMIT := 86ed8953b5233570c49a58060d424b7863d3a396
-RK3399_ATF_PATCH := $(RTBSD_DIR)/platform/rk3399/atf-rk3399-baudrate.patch
+RK3399_ATF_PATCH := $(RTBSD_DIR)/platform/rk3399-uboot/atf-rk3399-baudrate.patch
 RK3399_ATF_PLAT := rk3399
 RK3399_ATF_TARGET := bl31
 
-RK3399_UBOOT_DIR := $(RTBSD_DIR)/platform/rk3399/u-boot
+RK3399_UBOOT_DIR := $(RTBSD_DIR)/platform/rk3399-uboot/u-boot
 RK3399_UBOOT_REPO := https://github.com/sigmaris/u-boot.git
 RK3399_UBOOT_BRANCH := v2020.01-ci
 RK3399_CONFIG := rockpro64-rk3399_defconfig
 RK3399_CROSS_COMPILE := aarch64-linux-gnu-
 
-RK3399_ARTIFACTS_DIR := $(RTBSD_DIR)/platform/rk3399/artifacts
+RK3399_ARTIFACTS_DIR := $(RTBSD_DIR)/platform/rk3399-uboot/artifacts
 RK3399_NPROC := $(shell nproc)
 
 # Color definitions
