@@ -8,4 +8,5 @@ include $(RTBSD_DIR)/tools/netbsd.mk
 include $(RTBSD_DIR)/tools/libbsd.mk
 include $(RTBSD_DIR)/tools/rtems.mk
 include $(RTBSD_DIR)/tools/haiku.mk
-include $(RTBSD_DIR)/platform/rk3399-uboot/rk3399.mk
+include $(RTBSD_DIR)/platform/rockpro64/rk3399_rockpro64.mk
+include $(RTBSD_DIR)/platform/toybrick/rk3399_toybrick.mk
