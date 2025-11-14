@@ -1,0 +1,10 @@
+# Send-Break.ps1
+$port = New-Object System.IO.Ports.SerialPort
+$port.PortName = "COM5"
+$port.BaudRate = 115200
+$port.Open()
+$port.BreakState = $true
+Start-Sleep -Milliseconds 250
+$port.BreakState = $false
+$port.Close()
+Write-Host "BREAK sent to COM5"

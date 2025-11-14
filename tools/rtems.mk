@@ -1,5 +1,7 @@
 export SHELL := /bin/bash
 
+export PATH :=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/snap/bin
+
 RTEMS_VERSION := 6
 RTEMS_SRC_DIR := $(RTBSD_DIR)/rtos/rtems-space/rtems
 RTEMS_LIBBSD_DIR := $(RTBSD_DIR)/rtos/rtems-space/rtems-libbsd
@@ -126,8 +128,16 @@ rtems_firefly_v2_bsp:
 	$(call config_rtems_bsp,firefly_v2.ini,$(RTEMS_SRC_DIR))
 	$(call build_rtems_bsp,$(RTEMS_AARCH64_TOOL_PREFIX),$(RTEMS_SRC_DIR))
 
-rtems_firefly_v2_image: libbsd_aarch64
+rtems_firefly_v2_image:
 	$(call build_rtems_appimage,firefly_v2)
+
+rtems_rk3399_rockpro64_default_config:
+	$(call get_rtems_bsp_default_config,$(RTEMS_SRC_DIR),aarch64,rk3399_rockpro64)
+
+rtems_rk3399_rockpro64_bsp:
+	@echo -n > $(RTEMS_SRC_DIR)/config.ini
+	$(call config_rtems_bsp,rk3399_rockpro64.ini,$(RTEMS_SRC_DIR))
+	$(call build_rtems_bsp,$(RTEMS_AARCH64_TOOL_PREFIX),$(RTEMS_SRC_DIR))
 
 rtems_zynq_image:
 	@echo -n > $(RTEMS_SRC_DIR)/config.ini

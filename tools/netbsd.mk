@@ -17,17 +17,28 @@ netbsd_aarch64_image:
 		-O $(RTBSD_DIR)/build/obj.$(NETBSD_AARCH64_ARCH) \
 		-m $(NETBSD_AARCH64_MARCH) \
 		-a $(NETBSD_AARCH64_ARCH) \
-		tools release \
-		releasekernel=$(NETBSD_AARCH64_KERNCONFIG)
+		releasekernel=$(NETBSD_AARCH64_KERNCONFIG) \
+		tools release 
 	@gunzip -d $(NETBSD_AARCH64_IMAGES)/arm64.img.gz
 	@cp $(NETBSD_AARCH64_IMAGES)/arm64.img ./netbsd-aarch64.img
 	@cp ./netbsd-aarch64.img /mnt/d/tftpboot/netbsd-aarch64.img -f
 #	@qemu-img resize ./netbsd-aarch64.img 20g
 
+netbsd_aarch64_kernel:
+	@echo "Building kernel for NetBSD(AARCH64)"
+	@cd $(NETBSD_AARCH64_SRC_DIR) && \
+		./build.sh -U -u -j$(NETBSD_AARCH64_MAXJOBS) \
+		-O $(RTBSD_DIR)/build/obj.$(NETBSD_AARCH64_ARCH) \
+		-m $(NETBSD_AARCH64_MARCH) \
+		-a $(NETBSD_AARCH64_ARCH) \
+		releasekernel=$(NETBSD_AARCH64_KERNCONFIG) \
+		build
+	@cp $(NETBSD_AARCH64_KERNELS)/$(NETBSD_AARCH64_KERNCONFIG)/netbsd /mnt/d/tftpboot/netbsd -f
+
 netbsd_aarch64_refernce:
 	@echo "Building refernce for NetBSD(AARCH64)"
 	@cd $(NETBSD_AARCH64_SRC_DIR) && \
-		bear -- ./build.sh -U -u -j$(NETBSD_AARCH64_MAXJOBS) \
+		bear ./build.sh -U -u -j$(NETBSD_AARCH64_MAXJOBS) \
 		-O $(RTBSD_DIR)/build/obj.$(NETBSD_AARCH64_ARCH) \
 		-m $(NETBSD_AARCH64_MARCH) \
 		-a $(NETBSD_AARCH64_ARCH) \
@@ -58,7 +69,7 @@ netbsd_aarch64_run:
 # sysctl -w net.link.ieee80211.vap0.debug=0x00400000 | 0x00800000 | 0x01000000 | 0x04000000 | 0x40000000
 # sysctl -w net.link.ieee80211.vap0.debug=0x45800000
 # ifconfig rtwn0 up
-# ifconfig rtwn0 nwid "rtbsd" mode 11g
+# ifconfig rtwn0 nwid "rtbsd" mode 11b
 # wpa_supplicant -i rtwn0 -c /etc/wpa_supplicant.conf -B
 # ping www.baidu.com
 

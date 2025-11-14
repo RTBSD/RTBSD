@@ -30,6 +30,7 @@ iw dev wlan0 info
 ```
 sudo tcpdump -ni wlan0 -y IEEE802_11_RADIO -U -s0 -v 'wlan addr1 24:ec:99:2d:b8:7b or wlan addr2 24:ec:99:2d:b8:7b'
 
-sudo tcpdump -ni wlan0 -y IEEE802_11_RADIO -U -s0 -v 'wlan addr1 20:f4:1b:52:8f:01 or wlan addr2 20:f4:1b:52:8f:01'
-
+sudo tcpdump -ni wlan0 -y IEEE802_11_RADIO -U -s0 -v \
+  '(wlan addr1 24:ec:99:2d:b8:7b or wlan addr2 24:ec:99:2d:b8:7b) and wlan type data' | \
+grep -i icmp
 ```

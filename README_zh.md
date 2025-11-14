@@ -138,7 +138,17 @@ make netbsd_aarch64_run
 
 ![netbsd_run](./doc/figs/netbsd_run.png)
 
-## 4. 设计
+## 4. 编译 RTEMS
+
+- 安装必要的软件包, pythonx.x-dev 按实际版本安装
+
+```
+python --version
+sudo apt-get update
+sudo apt-get install binutils gcc g++ gdb unzip git python3.8-dev
+```
+
+## 5. 设计
 
 RTBSD 的几个设计理念包括：
 
